@@ -325,4 +325,571 @@
                         <dd class="text-gray-700">A type of artificial intelligence model trained on vast amounts of text data, capable of understanding, generating, and translating human language.</dd>
                     </div>
                     <div>
-                        <dt class="glossary-term">MVP (Minimum Viable Product)</
+                        <dt class="glossary-term">MVP (Minimum Viable Product)</dt>
+                        <dd class="text-gray-700">A version of a new product with just enough features to satisfy early customers and provide feedback for future product development.</dd>
+                    </div>
+                    <div>
+                        <dt class="glossary-term">Natural Language</dt>
+                        <dd class="text-gray-700">Human language (e.g., English, Spanish) as it is spoken or written, as opposed to formal languages like programming languages.</dd>
+                    </div>
+                    <div>
+                        <dt class="glossary-term">Proprietary Code</dt>
+                        <dd class="text-gray-700">Source code that is owned by an individual or a company and is not publicly available or open-source.</dd>
+                    </div>
+                    <div>
+                        <dt class="glossary-term">Prototyping</dt>
+                        <dd class="text-gray-700">The process of creating preliminary versions of a product or system to test concepts, gather feedback, and iterate on design before full development.</dd>
+                    </div>
+                    <div>
+                        <dt class="glossary-term">SOC 2 Certified</dt>
+                        <dd class="text-gray-700">A certification indicating that a service organization has undergone an audit of its controls relevant to security, availability, processing integrity, confidentiality, or privacy.</dd>
+                    </div>
+                    <div>
+                        <dt class="glossary-term">Telemetry</dt>
+                        <dd class="text-gray-700">The process of collecting and transmitting data from remote or inaccessible sources to receiving equipment for monitoring and analysis.</dd>
+                    </div>
+                    <div>
+                        <dt class="glossary-term">Token (AI)</dt>
+                        <dd class="text-gray-700">The basic unit of text that an AI model processes. A token can be a word, part of a word, or even a single character, depending on the model's tokenizer.</dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center p-8 mt-12 bg-gray-800 text-gray-400">
+        <p>Interactive report based on "An Unbiased Comparison of Leading AI Code Tools."</p>
+        <p class="text-sm mt-2">All data is derived from the source report and is for informational purposes only.</p>
+    </footer>
+
+    <script>
+        const appData = {
+            tools: {
+                cursor: {
+                    name: 'Cursor',
+                    ratings: [9, 8, 8, 9, 7], // Ease of Use, Power, Code Quality, Privacy, Versatility
+                    details: `
+                        <p class="mb-4">An AI-first IDE built as a fork of VS Code. It excels at understanding your entire codebase to provide highly contextual edits, refactoring, and code generation.</p>
+                        <h4 class="font-bold text-lg mb-2">Strengths:</h4>
+                        <ul class="list-disc list-inside mb-4 text-gray-700">
+                            <li>Seamless transition from VS Code.</li>
+                            <li>Deep codebase understanding.</li>
+                            <li>Flexible model choice (GPT-4, Claude, etc.).</li>
+                            <li>Strong privacy features (SOC 2 certified).</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Limitations:</h4>
+                        <ul class="list-disc list-inside text-gray-700">
+                            <li>Performance issues with large files.</li>
+                            <li>Occasional code inaccuracies.</li>
+                            <li>Risk of over-reliance by developers.</li>
+                        </ul>
+                    `,
+                    keyTakeaways: [
+                        'Best for experienced developers who want an AI-first IDE with deep codebase understanding.',
+                        'Strong privacy features make it suitable for sensitive projects.',
+                        'Offers flexible AI model selection for diverse needs.',
+                        'Requires careful oversight due to occasional inaccuracies and performance lags on large files.'
+                    ]
+                },
+                lovable: {
+                    name: 'Lovable',
+                    ratings: [10, 5, 6, 8, 6],
+                    details: `
+                        <p class="mb-4">A web app builder that allows users of any skill level to create full-stack applications using natural language. It handles everything from frontend to deployment.</p>
+                        <h4 class="font-bold text-lg mb-2">Strengths:</h4>
+                        <ul class="list-disc list-inside mb-4 text-gray-700">
+                            <li>Empowers non-coders to build apps.</li>
+                            <li>Extremely rapid MVP generation.</li>
+                            <li>Integrated, all-in-one platform.</li>
+                            <li>Users retain full code ownership.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Limitations:</h4>
+                        <ul class="list-disc list-inside text-gray-700">
+                            <li>Less granular control than manual coding.</li>
+                            <li>Architectural inconsistencies on long projects.</li>
+                            <li>Requires significant time for debugging.</li>
+                        </ul>
+                    `,
+                    keyTakeaways: [
+                        'Ideal for non-technical users and rapid prototyping of full-stack web applications.',
+                        'Simplifies the entire development lifecycle from idea to deployment.',
+                        'Offers full code ownership, providing flexibility.',
+                        'May require significant debugging and lacks granular control for complex, long-term projects.'
+                    ]
+                },
+                copilot: {
+                    name: 'GitHub Copilot',
+                    ratings: [8, 8, 7, 7, 9],
+                    details: `
+                         <p class="mb-4">An AI pair programmer that integrates into most popular IDEs, providing real-time code suggestions, chat, and agentic capabilities.</p>
+                        <h4 class="font-bold text-lg mb-2">Strengths:</h4>
+                        <ul class="list-disc list-inside mb-4 text-gray-700">
+                            <li>Widespread IDE integration.</li>
+                            <li>Proven productivity boosts.</li>
+                            <li>Versatile features (chat, CLI, review).</li>
+                            <li>Excellent for boilerplate and tests.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Limitations:</h4>
+                        <ul class="list-disc list-inside text-gray-700">
+                            <li>Data privacy and telemetry concerns.</li>
+                            <li>Higher code churn rate (lower initial quality).</li>
+                            <li>Struggles with very complex logic.</li>
+                        </ul>
+                    `,
+                    keyTakeaways: [
+                        'Top choice for individual developers seeking real-time, in-IDE code assistance.',
+                        'Offers significant productivity gains and improves developer satisfaction.',
+                        'Versatile with chat, CLI, and code review features.',
+                        'Requires careful attention to code quality due to higher churn rate and potential privacy concerns.'
+                    ]
+                },
+                codex: {
+                    name: 'OpenAI Codex',
+                    ratings: [4, 10, 7, 9, 8],
+                    details: `
+                        <p class="mb-4">The powerful AI model that underpins many tools, accessible via API and CLI. It functions as an AI agent capable of autonomous, complex tasks.</p>
+                        <h4 class="font-bold text-lg mb-2">Strengths:</h4>
+                        <ul class="list-disc list-inside mb-4 text-gray-700">
+                            <li>Powerful agentic capabilities for automation.</li>
+                            <li>High flexibility via API/CLI access.</li>
+                            <li>Strong enterprise security and privacy.</li>
+                            <li>Can read and understand entire repos.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Limitations:</h4>
+                        <ul class="list-disc list-inside text-gray-700">
+                            <li>Not a direct IDE extension; requires setup.</li>
+                            <li>Inconsistent on multi-step prompts.</li>
+                            <li>Poor error handling.</li>
+                        </ul>
+                    `,
+                    keyTakeaways: [
+                        'Ideal for building custom AI tools and automating complex development tasks via API/CLI.',
+                        'Offers robust enterprise-grade security and privacy features.',
+                        'Functions as a powerful AI agent capable of autonomous actions.',
+                        'Requires more setup than IDE extensions and can be inconsistent on complex, multi-step prompts.'
+                    ]
+                },
+                gemini_cli: {
+                    name: 'Gemini CLI',
+                    ratings: [6, 7, 7, 7, 10],
+                    details: `
+                        <p class="mb-4">An open-source AI agent from Google that operates directly in the terminal, designed for command-line tasks, coding, and general problem-solving.</p>
+                        <h4 class="font-bold text-lg mb-2">Strengths:</h4>
+                        <ul class="list-disc list-inside mb-4 text-gray-700">
+                            <li>Terminal-native workflow.</li>
+                            <li>Open-source and transparent.</li>
+                            <li>Generous free usage limits.</li>
+                            <li>Highly versatile for non-coding tasks.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Limitations:</h4>
+                        <ul class="list-disc list-inside text-gray-700">
+                            <li>Inconsistent on complex workflows.</li>
+                            <li>Setup can be 'fragile'.</li>
+                            <li>Can get stuck or hallucinate on large prompts.</li>
+                        </ul>
+                    `,
+                    keyTakeaways: [
+                        'Best for terminal-centric developers seeking integrated AI assistance for command-line tasks and code snippets.',
+                        'Open-source nature fosters transparency and community contributions.',
+                        'Offers generous free usage limits for individual users.',
+                        'Performance can be inconsistent for complex, multi-step workflows and may require careful prompt engineering.'
+                    ]
+                },
+            },
+            matrixData: [
+                { feature: 'Tool Type', values: ['AI-assisted IDE', 'Web App Builder', 'IDE Plugin', 'Model/API/Agent', 'CLI Agent'] },
+                { feature: 'Primary Functionality', values: ['Code Completion, Agentic Editing', 'Full-Stack App Generation', 'Real-time Code Completion, Chat', 'Natural Language to Code, Automation', 'Code Generation, Problem Solving'] },
+                { feature: 'Key Integrations', values: ['VS Code (fork), GitHub, Supabase, Vercel, External APIs (via MCP)', 'Supabase, GitHub, Vercel, Netlify, Stripe, OpenAI, Anthropic, various APIs', 'VS Code, Visual Studio, JetBrains, Neovim, GitHub.com, Windows Terminal', 'GitHub (CLI/API), ChatGPT (Plus/Team/Enterprise)', 'Terminal, Gemini Code Assist, Google Search, MCP servers'] },
+                { feature: 'Underlying AI Models', values: ['Proprietary, OpenAI GPT, Claude, Gemini (user selectable)', 'Proprietary, Claude, OpenAI GPT, Groq, Deepseek, Mistral', 'OpenAI Codex (GPT-3 base), GPT-4, GPT-4o, Claude 3.5, Anthropic Sonnet (user selectable)', 'GPT-3 (fine-tuned), o3, o4-mini', 'Gemini 2.5 Pro'] },
+                { feature: 'Target User', values: ['Experienced Developers', 'Non-Technical Users', 'Individual Developers', 'Tool Builders, Enterprises', 'Terminal-centric Developers'] },
+                { feature: 'Privacy Standout', values: ['Privacy Mode, SOC 2', 'Full Code Ownership', 'Enterprise Controls', 'No training on user data (Ent.)', 'Open-source code'] },
+                { feature: 'Performance Note', values: ['Lags on large files', '~25% debug time', '41% higher churn rate', '40-60% acceptance rate', 'Fails on complex tasks'] },
+                { feature: 'General Pros', values: ['Seamless VS Code transition, deep codebase understanding, flexible model choice, strong privacy.', 'Enables non-coders, rapid full-stack MVP, integrated environment, user code ownership.', 'Widespread IDE integration, significant productivity boost, versatile assistance, good for boilerplate/testing.', 'Powerful underlying model, autonomous agent capabilities, high flexibility via API/CLI, enterprise security.', 'Terminal-native, open-source, generous free usage, versatile for non-coding tasks, built-in tools.'] },
+                { feature: 'General Cons', values: ['Performance issues with large files, occasional inaccuracies, potential for over-reliance.', 'Limited granular customization, potential architectural inconsistencies, debugging AI code effort, premium pricing.', 'Data telemetry concerns, limited private repo access (standard), lower initial code quality (higher churn), cost.', 'Not an IDE extension, inconsistent accuracy, poor error handling, workflow friction for multi-step refactors, safety concerns.', 'Inconsistent performance for complex tasks, fragile setup, resource intensive, enterprise cost.'] },
+            ],
+            glossaryTerms: [
+                { term: 'AI Agent', definition: 'An AI system capable of autonomous, goal-oriented actions, often involving multiple steps, decision-making, and interaction with external tools or environments (e.g., a codebase, terminal).' },
+                { term: 'Autocomplete', definition: 'A feature that predicts and suggests the completion of code, words, or phrases as a user types, based on context and common patterns.' },
+                { term: 'Boilerplate Code', definition: 'Sections of code that are repeated in multiple places with little or no variation, often necessary for setup or standard functionality but not contributing unique logic.' },
+                { term: 'Churn Rate (Code)', definition: 'A metric indicating how frequently code is modified, deleted, or replaced after its initial creation. A high churn rate can suggest lower initial quality or frequent refactoring.' },
+                { term: 'CLI (Command Line Interface)', definition: 'A text-based interface used to interact with computer programs by typing commands, as opposed to using a graphical user interface (GUI).' },
+                { term: 'Context Window', definition: 'The amount of text (tokens) that an AI model can process and "remember" at one time when generating responses. A larger context window allows for more relevant and coherent long-form interactions.' },
+                { term: 'Hallucination (AI)', definition: 'When an AI model generates information that is plausible but factually incorrect, nonsensical, or not supported by its training data or the provided context.' },
+                { term: 'IDE (Integrated Development Environment)', definition: 'A software application that provides comprehensive facilities to computer programmers for software development, typically including a source code editor, build automation tools, and a debugger.' },
+                { term: 'LLM (Large Language Model)', definition: 'A type of artificial intelligence model trained on vast amounts of text data, capable of understanding, generating, and translating human language.' },
+                { term: 'MVP (Minimum Viable Product)', definition: 'A version of a new product with just enough features to satisfy early customers and provide feedback for future product development.' },
+                { term: 'Natural Language', definition: 'Human language (e.g., English, Spanish) as it is spoken or written, as opposed to formal languages like programming languages.' },
+                { term: 'Proprietary Code', definition: 'Source code that is owned by an individual or a company and is not publicly available or open-source.' },
+                { term: 'Prototyping', definition: 'The process of creating preliminary versions of a product or system to test concepts, gather feedback, and iterate on design before full development.' },
+                { term: 'SOC 2 Certified', definition: 'A certification indicating that a service organization has undergone an audit of its controls relevant to security, availability, processing integrity, confidentiality, or privacy.' },
+                { term: 'Telemetry', definition: 'The process of collecting and transmitting data from remote or inaccessible sources to receiving equipment for monitoring and analysis.' },
+                { term: 'Token (AI)', definition: 'The basic unit of text that an AI model processes. A token can be a word, part of a word, or even a single character, depending on the model\'s tokenizer.' },
+            ]
+        };
+
+        let radarChart;
+        let marketOverviewChart;
+        let performanceChart;
+        let pricingChart;
+        let privacyChart;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.nav-tab');
+            const toolSelector = document.getElementById('tool-selector');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    document.querySelectorAll('.tab-pane').forEach(pane => {
+                        pane.classList.add('hidden');
+                        if(pane.id === tab.dataset.tab) {
+                            pane.classList.remove('hidden');
+                        }
+                    });
+                });
+            });
+
+            // Initialize Deep Dive
+            const toolKeys = Object.keys(appData.tools);
+            toolKeys.forEach(key => {
+                const tool = appData.tools[key];
+                const btn = document.createElement('button');
+                btn.className = 'tool-selector-btn bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-300 rounded-full shadow-sm';
+                btn.textContent = tool.name;
+                btn.dataset.toolId = key;
+                toolSelector.appendChild(btn);
+            });
+
+            const toolButtons = document.querySelectorAll('.tool-selector-btn');
+            toolButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    toolButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateToolDeepDive(btn.dataset.toolId);
+                });
+            });
+            
+            // Initialize with the first tool
+            toolButtons[0].click();
+
+            // Initialize Matrix
+            const matrixBody = document.getElementById('matrix-body');
+            appData.matrixData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML += `<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${row.feature}</td>`;
+                row.values.forEach(value => {
+                    tr.innerHTML += `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${value}</td>`;
+                });
+                matrixBody.appendChild(tr);
+            });
+
+            // Initialize Dashboard Chart
+            initMarketOverviewChart();
+
+            // Initialize Thematic Charts
+            initPerformanceChart();
+            initPricingChart();
+            initPrivacyChart();
+
+            // Initialize Finder
+            initFinder();
+
+            // Initialize Glossary
+            initGlossary();
+        });
+
+        function createChart(ctx, config) {
+             const tooltipCallback = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    }
+                }
+            };
+            
+            return new Chart(ctx, {
+                ...config,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    ...tooltipCallback,
+                    ...config.options,
+                }
+            });
+        }
+        
+        function updateToolDeepDive(toolId) {
+            const tool = appData.tools[toolId];
+            document.getElementById('tool-name').textContent = tool.name;
+            document.getElementById('tool-details').innerHTML = tool.details;
+
+            const keyTakeawaysList = document.querySelector('#tool-key-takeaways ul');
+            keyTakeawaysList.innerHTML = ''; // Clear previous takeaways
+            tool.keyTakeaways.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                keyTakeawaysList.appendChild(li);
+            });
+
+
+            if (radarChart) {
+                radarChart.data.datasets[0].data = tool.ratings;
+                radarChart.data.datasets[0].label = tool.name;
+                radarChart.update();
+            } else {
+                const radarCtx = document.getElementById('radarChart').getContext('2d');
+                radarChart = createChart(radarCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Ease of Use', 'Power', 'Code Quality', 'Privacy', 'Versatility'],
+                        datasets: [{
+                            label: tool.name,
+                            data: tool.ratings,
+                            fill: true,
+                            backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                            borderColor: '#0d6efd',
+                            pointBackgroundColor: '#0d6efd',
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 10,
+                                grid: { color: '#e5e7eb' },
+                                pointLabels: { font: { size: 12 } },
+                                angleLines: { color: '#f3f4f6' }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function initMarketOverviewChart() {
+            const ctx = document.getElementById('marketOverviewChart').getContext('2d');
+            marketOverviewChart = createChart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['GitHub Copilot', 'Cursor', 'OpenAI Codex', 'Lovable', 'Gemini CLI'],
+                    datasets: [{
+                        label: 'Relative Popularity/Adoption',
+                        data: [90, 75, 60, 40, 50], // Dummy data for popularity
+                        backgroundColor: [
+                            '#0d6efd',
+                            '#6c757d',
+                            '#fd7e14',
+                            '#20c997',
+                            '#6f42c1'
+                        ],
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: (value) => value + '%'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+        
+        function initPerformanceChart() {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            performanceChart = createChart(ctx, {
+                type: 'pie', // Changed to pie chart
+                data: {
+                    labels: ['Productivity Gains (Faster Initial Dev)', 'Quality Overhead (Review/Debug Effort)'],
+                    datasets: [
+                        {
+                            data: [75, 25], // Data for pie chart, representing 75% gain, 25% overhead
+                            backgroundColor: ['#0d6efd', '#FD7E14'],
+                            borderColor: 'white',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%'; // Display percentage
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initPricingChart() {
+            const ctx = document.getElementById('pricingChart').getContext('2d');
+            pricingChart = createChart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Individual', 'Team', 'Enterprise'],
+                    datasets: [
+                        {
+                            label: 'Base Subscription',
+                            data: [10, 25, 39],
+                            backgroundColor: '#0d6efd',
+                        },
+                        {
+                            label: 'Consumption/Add-ons',
+                            data: [5, 15, 50],
+                            backgroundColor: '#fd7e14',
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                           stacked: true
+                        },
+                        y: {
+                            stacked: true,
+                            ticks: {
+                                callback: (value) => '$' + value
+                            }
+                        }
+                    },
+                     plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function initPrivacyChart() {
+            const ctx = document.getElementById('privacyChart').getContext('2d');
+            privacyChart = createChart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Cursor', 'Lovable', 'GitHub Copilot', 'OpenAI Codex', 'Gemini CLI'],
+                    datasets: [{
+                        label: 'Privacy Features Score (1-10)',
+                        data: [9, 8, 7, 9, 7], // Dummy data for privacy score
+                        backgroundColor: [
+                            '#0d6efd',
+                            '#6c757d',
+                            '#fd7e14',
+                            '#20c997',
+                            '#6f42c1'
+                        ],
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function initFinder() {
+            const container = document.getElementById('finder-container');
+            const questions = [
+                { id: 'q1', text: 'What is your primary role?', answers: [ { text: 'Developer/Team', next: 'q2a' }, { text: 'Non-Coder/Prototyper', next: 'r-lovable' }, { text: 'Tool Builder/Automator', next: 'q2b' } ] },
+                { id: 'q2a', text: 'What is your main environment?', answers: [ { text: 'IDE (VS Code, JetBrains)', next: 'q3a' }, { text: 'Terminal / CLI', next: 'r-gemini' } ] },
+                { id: 'q2b', text: 'What is your priority?', answers: [ { text: 'Flexibility via API', next: 'r-codex' }, { text: 'Open Source & Terminal Native', next: 'r-gemini' } ] },
+                { id: 'q3a', text: 'What is your top priority?', answers: [ { text: 'Productivity & Wide Support', next: 'r-copilot' }, { text: 'Deep Codebase Intelligence', next: 'r-cursor' } ] },
+                { id: 'r-lovable', text: 'Recommendation: Lovable is the perfect choice for building full-stack apps without writing code.', isRecommendation: true },
+                { id: 'r-gemini', text: 'Recommendation: Gemini CLI is ideal for terminal-centric workflows.', isRecommendation: true },
+                { id: 'r-codex', text: 'Recommendation: OpenAI Codex provides the power and flexibility to build custom tools.', isRecommendation: true },
+                { id: 'r-copilot', text: 'Recommendation: GitHub Copilot offers the best all-around productivity boost inside your IDE.', isRecommendation: true },
+                { id: 'r-cursor', text: 'Recommendation: Cursor provides unparalleled codebase understanding for complex refactoring.', isRecommendation: true },
+            ];
+
+            function renderQuestion(questionId) {
+                container.innerHTML = '';
+                const question = questions.find(q => q.id === questionId);
+                if (!question) return;
+
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'text-center';
+                
+                const title = document.createElement('h4');
+                title.className = 'text-xl font-bold mb-6';
+                title.textContent = question.text;
+                questionDiv.appendChild(title);
+                
+                if (question.isRecommendation) {
+                    title.className = 'finder-node recommended p-4 rounded-lg text-lg';
+                } else {
+                    const answersDiv = document.createElement('div');
+                    answersDiv.className = 'flex flex-col md:flex-row justify-center gap-4';
+                    question.answers.forEach(answer => {
+                        const btn = document.createElement('button');
+                        btn.className = 'finder-node border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 text-gray-800 font-semibold py-3 px-6 rounded-lg';
+                        btn.textContent = answer.text;
+                        btn.onclick = () => renderQuestion(answer.next);
+                        answersDiv.appendChild(btn);
+                    });
+                     questionDiv.appendChild(answersDiv);
+                }
+                container.appendChild(questionDiv);
+            }
+            renderQuestion('q1');
+        }
+
+        function initGlossary() {
+            const glossaryContainer = document.querySelector('#glossary .bg-white dl');
+            glossaryContainer.innerHTML = ''; // Clear existing content
+            appData.glossaryTerms.forEach(item => {
+                const dt = document.createElement('dt');
+                dt.className = 'glossary-term';
+                dt.textContent = item.term;
+                glossaryContainer.appendChild(dt);
+
+                const dd = document.createElement('dd');
+                dd.className = 'text-gray-700 mb-4';
+                dd.textContent = item.definition;
+                glossaryContainer.appendChild(dd);
+            });
+        }
+
+    </script>
+</body>
+</html>
