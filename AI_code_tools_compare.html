@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Report: An Unbiased Comparison of Leading AI Code Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Neutral Tech -->
+    <!-- Application Structure Plan: The application uses a tab-based navigation to create a dashboard-like experience, moving away from the report's linear structure. This was chosen for usability, allowing users to quickly access the information most relevant to them. The structure includes: 1) A 'Dashboard' for key stats and recommendations. 2) A 'Tool Deep Dive' for detailed, interactive comparison of each tool. 3) A 'Comparison Matrix' for a comprehensive side-by-side view. 4) A 'Thematic Analysis' to explore cross-cutting trends. 5) A 'Find Your Tool' interactive guide. This flow enables users to get a high-level summary first, then explore details based on their own interests, making the dense information highly consumable. -->
+    <!-- Visualization & Content Choices: The application uses a mix of interactive elements to represent the report's data. Goal: Inform -> Large number callouts for key stats (HTML/CSS). Goal: Compare -> An interactive radar chart (Chart.js/Canvas) that updates on user selection to compare tools on multiple attributes. A full HTML table is used for the comprehensive matrix. Bar charts (Chart.js/Canvas) are used to visualize thematic analyses like performance vs. quality. Goal: Guide -> An interactive flowchart (HTML/CSS/JS) to provide personalized recommendations. These choices prioritize user interaction and clarity. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Light Neutral Background */
+            color: #343A40; /* Darker Text */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-tab {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+        .nav-tab.active {
+            color: #0d6efd; /* Primary Blue */
+            border-bottom-color: #0d6efd;
+        }
+        .kpi-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border-left: 5px solid #0d6efd;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .kpi-value {
+            font-weight: 900;
+            color: #FD7E14; /* Orange Accent */
+        }
+        .tool-selector-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .tool-selector-btn.active {
+            background-color: #0d6efd;
+            color: white;
+            transform: scale(1.05);
+        }
+        .finder-node {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .finder-node.selected {
+            background-color: #0d6efd;
+            color: white;
+            border-color: #0a58ca;
+        }
+        .finder-node.recommended {
+            background-color: #FD7E14;
+            color: white;
+            border-color: #e06c0b;
+        }
+        .finder-path {
+            transition: background-color 0.5s ease;
+        }
+        .finder-path.highlight {
+            background-color: #FD7E14;
+        }
+        .table-responsive {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="py-4 text-center">
+                <h1 class="text-3xl md:text-4xl font-bold text-[#0d6efd]">AI Code Tools: An Interactive Comparison</h1>
+                <p class="text-gray-500 mt-1">Explore the capabilities, performance, and use cases of leading AI developer tools.</p>
+            </div>
+            <nav id="main-nav" class="flex justify-center border-b border-gray-200">
+                <button data-tab="dashboard" class="nav-tab active font-semibold py-3 px-2 md:px-4">Dashboard</button>
+                <button data-tab="deep-dive" class="nav-tab font-semibold py-3 px-2 md:px-4">Tool Deep Dive</button>
+                <button data-tab="matrix" class="nav-tab font-semibold py-3 px-2 md:px-4">Comparison Matrix</button>
+                <button data-tab="analysis" class="nav-tab font-semibold py-3 px-2 md:px-4">Thematic Analysis</button>
+                <button data-tab="finder" class="nav-tab font-semibold py-3 px-2 md:px-4">Find Your Tool</button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="tab-content" class="container mx-auto p-4 sm:p-6 md:p-8">
+
+        <div id="dashboard" class="tab-pane active">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">Dashboard: The Big Picture</h2>
+                <p class="max-w-3xl mx-auto text-gray-600">This dashboard summarizes the most critical findings from our comprehensive report. Get a quick overview of the key performance metrics shaping the AI coding landscape and our top recommendations for different user profiles.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="kpi-card">
+                    <div class="text-6xl md:text-7xl kpi-value">55%</div>
+                    <h3 class="text-xl font-bold mt-4">Productivity Boost</h3>
+                    <p class="mt-2 text-gray-600">GitHub Copilot can accelerate development tasks by up to 55%, showcasing AI's immense potential to automate boilerplate and routine coding.</p>
+                </div>
+                <div class="kpi-card">
+                    <div class="text-6xl md:text-7xl kpi-value">41%</div>
+                    <h3 class="text-xl font-bold mt-4">Higher Code Churn</h3>
+                    <p class="mt-2 text-gray-600">AI-generated code has a 41% higher churn rate, meaning it's more likely to be revised. This highlights the critical need for rigorous human review.</p>
+                </div>
+            </div>
+
+             <h3 class="text-2xl font-bold text-center mb-6">Top Recommendations by Persona</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="font-bold text-xl text-[#0d6efd]">Individual Developer</h4>
+                    <p class="mt-2 text-gray-600">For seamless IDE integration and rapid coding, <strong class="text-black">GitHub Copilot</strong> or <strong class="text-black">Cursor</strong> are top choices. For terminal work, <strong class="text-black">Gemini CLI</strong> is a powerful free option.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="font-bold text-xl text-[#0d6efd]">Non-Technical User</h4>
+                    <p class="mt-2 text-gray-600">To build a full-stack web app with natural language, <strong class="text-black">Lovable</strong> is the undisputed leader, abstracting away code entirely.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="font-bold text-xl text-[#0d6efd]">Enterprise Teams</h4>
+                    <p class="mt-2 text-gray-600"><strong class="text-black">Copilot Enterprise</strong> and <strong class="text-black">Codex (via ChatGPT Enterprise)</strong> offer the necessary privacy, security, and management features for large organizations.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="font-bold text-xl text-[#0d6efd]">AI Tool Builder</h4>
+                    <p class="mt-2 text-gray-600">For custom automation and tooling, the API access of <strong class="text-black">OpenAI Codex</strong> and the open-source nature of <strong class="text-black">Gemini CLI</strong> provide maximum flexibility.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="deep-dive" class="tab-pane hidden">
+             <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">Tool Deep Dive</h2>
+                <p class="max-w-3xl mx-auto text-gray-600">Select a tool to explore its specific strengths, limitations, and ideal use cases. The radar chart below visualizes its ratings across key attributes, allowing for quick, effective comparison.</p>
+            </div>
+            <div class="flex justify-center flex-wrap gap-2 mb-8" id="tool-selector"></div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                     <h3 id="tool-name" class="text-2xl font-bold text-[#0d6efd] mb-4">Select a tool</h3>
+                     <div id="tool-details">
+                        <p class="text-gray-500">Details will appear here.</p>
+                     </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold text-center mb-4">Capability Snapshot</h3>
+                    <div class="chart-container">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="matrix" class="tab-pane hidden">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">Comprehensive Comparison Matrix</h2>
+                <p class="max-w-3xl mx-auto text-gray-600">Explore a detailed, side-by-side comparison of all features, from underlying AI models to real-world performance notes. This matrix provides the granular data needed for in-depth evaluation.</p>
+            </div>
+             <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg table-responsive">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feature</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cursor</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lovable</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GitHub Copilot</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">OpenAI Codex</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gemini CLI</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matrix-body" class="bg-white divide-y divide-gray-200">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="analysis" class="tab-pane hidden">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">Thematic Analysis</h2>
+                <p class="max-w-3xl mx-auto text-gray-600">Beyond individual features, several key themes define the current state of AI code tools. This section visualizes the critical trade-offs in performance, privacy considerations, and the diverse pricing models found across the market.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold text-center mb-2">Performance: Speed vs. Quality</h3>
+                    <p class="text-gray-600 text-center mb-4">AI dramatically speeds up initial code generation but often requires significant time for review and debugging to ensure production quality.</p>
+                     <div class="chart-container h-80">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold text-center mb-2">Pricing Models: Subscription vs. Consumption</h3>
+                    <p class="text-gray-600 text-center mb-4">The market is split between predictable monthly subscriptions and utility-style token-based pricing, with most offering a free entry point.</p>
+                    <div class="chart-container h-80">
+                        <canvas id="pricingChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="finder" class="tab-pane hidden">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">Find Your Perfect AI Tool</h2>
+                <p class="max-w-3xl mx-auto text-gray-600">Answer a few simple questions about your role and priorities to get a personalized recommendation. This interactive guide helps you navigate the options and find the tool that best fits your specific needs.</p>
+            </div>
+            <div id="finder-container" class="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
+                <!-- Finder content will be generated by JS -->
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center p-8 mt-12 bg-gray-800 text-gray-400">
+        <p>Interactive report based on "An Unbiased Comparison of Leading AI Code Tools."</p>
+        <p class="text-sm mt-2">All data is derived from the source report and is for informational purposes only.</p>
+    </footer>
+
+    <script>
+        const appData = {
+            tools: {
+                cursor: {
+                    name: 'Cursor',
+                    ratings: [9, 8, 8, 9, 7], // Ease of Use, Power, Code Quality, Privacy, Versatility
+                    details: `
+                        <p class="mb-4">An AI-first IDE built as a fork of VS Code. It excels at understanding your entire codebase to provide highly contextual edits, refactoring, and code generation.</p>
+                        <h4 class="font-bold text-lg mb-2">Strengths:</h4>
+                        <ul class="list-disc list-inside mb-4 text-gray-700">
+                            <li>Seamless transition from VS Code.</li>
+                            <li>Deep codebase understanding.</li>
+                            <li>Flexible model choice (GPT-4, Claude, etc.).</li>
+                            <li>Strong privacy features (SOC 2 certified).</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Limitations:</h4>
+                        <ul class="list-disc list-inside text-gray-700">
+                            <li>Performance issues with large files.</li>
+                            <li>Occasional code inaccuracies.</li>
+                            <li>Risk of over-reliance by developers.</li>
+                        </ul>
+                    `,
+                },
+                lovable: {
+                    name: 'Lovable',
+                    ratings: [10, 5, 6, 8, 6],
+                    details: `
+                        <p class="mb-4">A web app builder that allows users of any skill level to create full-stack applications using natural language. It handles everything from frontend to deployment.</p>
+                        <h4 class="font-bold text-lg mb-2">Strengths:</h4>
+                        <ul class="list-disc list-inside mb-4 text-gray-700">
+                            <li>Empowers non-coders to build apps.</li>
+                            <li>Extremely rapid MVP generation.</li>
+                            <li>Integrated, all-in-one platform.</li>
+                            <li>Users retain full code ownership.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Limitations:</h4>
+                        <ul class="list-disc list-inside text-gray-700">
+                            <li>Less granular control than manual coding.</li>
+                            <li>Architectural inconsistencies on long projects.</li>
+                            <li>Requires significant time for debugging.</li>
+                        </ul>
+                    `,
+                },
+                copilot: {
+                    name: 'GitHub Copilot',
+                    ratings: [8, 8, 7, 7, 9],
+                    details: `
+                         <p class="mb-4">An AI pair programmer that integrates into most popular IDEs, providing real-time code suggestions, chat, and agentic capabilities.</p>
+                        <h4 class="font-bold text-lg mb-2">Strengths:</h4>
+                        <ul class="list-disc list-inside mb-4 text-gray-700">
+                            <li>Widespread IDE integration.</li>
+                            <li>Proven productivity boosts.</li>
+                            <li>Versatile features (chat, CLI, review).</li>
+                            <li>Excellent for boilerplate and tests.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Limitations:</h4>
+                        <ul class="list-disc list-inside text-gray-700">
+                            <li>Data privacy and telemetry concerns.</li>
+                            <li>Higher code churn rate (lower initial quality).</li>
+                            <li>Struggles with very complex logic.</li>
+                        </ul>
+                    `,
+                },
+                codex: {
+                    name: 'OpenAI Codex',
+                    ratings: [4, 10, 7, 9, 8],
+                    details: `
+                        <p class="mb-4">The powerful AI model that underpins many tools, accessible via API and CLI. It functions as an AI agent capable of autonomous, complex tasks.</p>
+                        <h4 class="font-bold text-lg mb-2">Strengths:</h4>
+                        <ul class="list-disc list-inside mb-4 text-gray-700">
+                            <li>Powerful agentic capabilities for automation.</li>
+                            <li>High flexibility via API/CLI access.</li>
+                            <li>Strong enterprise security and privacy.</li>
+                            <li>Can read and understand entire repos.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Limitations:</h4>
+                        <ul class="list-disc list-inside text-gray-700">
+                            <li>Not a direct IDE extension; requires setup.</li>
+                            <li>Inconsistent on multi-step prompts.</li>
+                            <li>Poor error handling.</li>
+                        </ul>
+                    `,
+                },
+                gemini_cli: {
+                    name: 'Gemini CLI',
+                    ratings: [6, 7, 7, 7, 10],
+                    details: `
+                        <p class="mb-4">An open-source AI agent from Google that operates directly in the terminal, designed for command-line tasks, coding, and general problem-solving.</p>
+                        <h4 class="font-bold text-lg mb-2">Strengths:</h4>
+                        <ul class="list-disc list-inside mb-4 text-gray-700">
+                            <li>Terminal-native workflow.</li>
+                            <li>Open-source and transparent.</li>
+                            <li>Generous free usage limits.</li>
+                            <li>Highly versatile for non-coding tasks.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Limitations:</h4>
+                        <ul class="list-disc list-inside text-gray-700">
+                            <li>Inconsistent on complex workflows.</li>
+                            <li>Setup can be 'fragile'.</li>
+                            <li>Can get stuck or hallucinate on large prompts.</li>
+                        </ul>
+                    `,
+                },
+            },
+            matrixData: [
+                { feature: 'Tool Type', values: ['AI-assisted IDE', 'Web App Builder', 'IDE Plugin', 'Model/API/Agent', 'CLI Agent'] },
+                { feature: 'Primary Functionality', values: ['Code Completion, Agentic Editing', 'Full-Stack App Generation', 'Real-time Code Completion, Chat', 'Natural Language to Code, Automation', 'Code Generation, Problem Solving'] },
+                { feature: 'Target User', values: ['Experienced Developers', 'Non-Technical Users', 'Individual Developers', 'Tool Builders, Enterprises', 'Terminal-centric Developers'] },
+                { feature: 'Privacy Standout', values: ['Privacy Mode, SOC 2', 'Full Code Ownership', 'Enterprise Controls', 'No training on user data (Ent.)', 'Open-source code'] },
+                { feature: 'Performance Note', values: ['Lags on large files', '~25% debug time', '41% higher churn rate', '40-60% acceptance rate', 'Fails on complex tasks'] },
+            ],
+        };
+
+        let radarChart;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.nav-tab');
+            const toolSelector = document.getElementById('tool-selector');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    document.querySelectorAll('.tab-pane').forEach(pane => {
+                        pane.classList.add('hidden');
+                        if(pane.id === tab.dataset.tab) {
+                            pane.classList.remove('hidden');
+                        }
+                    });
+                });
+            });
+
+            // Initialize Deep Dive
+            const toolKeys = Object.keys(appData.tools);
+            toolKeys.forEach(key => {
+                const tool = appData.tools[key];
+                const btn = document.createElement('button');
+                btn.className = 'tool-selector-btn bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-300 rounded-full shadow-sm';
+                btn.textContent = tool.name;
+                btn.dataset.toolId = key;
+                toolSelector.appendChild(btn);
+            });
+
+            const toolButtons = document.querySelectorAll('.tool-selector-btn');
+            toolButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    toolButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateToolDeepDive(btn.dataset.toolId);
+                });
+            });
+            
+            // Initialize with the first tool
+            toolButtons[0].click();
+
+            // Initialize Matrix
+            const matrixBody = document.getElementById('matrix-body');
+            appData.matrixData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML += `<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${row.feature}</td>`;
+                row.values.forEach(value => {
+                    tr.innerHTML += `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${value}</td>`;
+                });
+                matrixBody.appendChild(tr);
+            });
+
+            // Initialize Thematic Charts
+            initPerformanceChart();
+            initPricingChart();
+
+            // Initialize Finder
+            initFinder();
+        });
+
+        function createChart(ctx, config) {
+             const tooltipCallback = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    }
+                }
+            };
+            
+            return new Chart(ctx, {
+                ...config,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    ...tooltipCallback,
+                    ...config.options,
+                }
+            });
+        }
+        
+        function updateToolDeepDive(toolId) {
+            const tool = appData.tools[toolId];
+            document.getElementById('tool-name').textContent = tool.name;
+            document.getElementById('tool-details').innerHTML = tool.details;
+
+            if (radarChart) {
+                radarChart.data.datasets[0].data = tool.ratings;
+                radarChart.data.datasets[0].label = tool.name;
+                radarChart.update();
+            } else {
+                const radarCtx = document.getElementById('radarChart').getContext('2d');
+                radarChart = createChart(radarCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Ease of Use', 'Power', 'Code Quality', 'Privacy', 'Versatility'],
+                        datasets: [{
+                            label: tool.name,
+                            data: tool.ratings,
+                            fill: true,
+                            backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                            borderColor: '#0d6efd',
+                            pointBackgroundColor: '#0d6efd',
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 10,
+                                grid: { color: '#e5e7eb' },
+                                pointLabels: { font: { size: 12 } },
+                                angleLines: { color: '#f3f4f6' }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function initPerformanceChart() {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            createChart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Initial Dev Speed', 'Review/Debug Effort'],
+                    datasets: [
+                        {
+                            label: 'Productivity Gains',
+                            data: [75],
+                            backgroundColor: '#0d6efd',
+                        },
+                        {
+                            label: 'Quality Overhead',
+                            data: [-25],
+                            backgroundColor: '#FD7E14',
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            stacked: true,
+                            ticks: {
+                                callback: (value) => value + '% Effort'
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                        }
+                    },
+                     plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function initPricingChart() {
+            const ctx = document.getElementById('pricingChart').getContext('2d');
+            createChart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Individual', 'Team', 'Enterprise'],
+                    datasets: [
+                        {
+                            label: 'Base Subscription',
+                            data: [10, 25, 39],
+                            backgroundColor: '#0d6efd',
+                        },
+                        {
+                            label: 'Consumption/Add-ons',
+                            data: [5, 15, 50],
+                            backgroundColor: '#fd7e14',
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                           stacked: true
+                        },
+                        y: {
+                            stacked: true,
+                            ticks: {
+                                callback: (value) => '$' + value
+                            }
+                        }
+                    },
+                     plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function initFinder() {
+            const container = document.getElementById('finder-container');
+            const questions = [
+                { id: 'q1', text: 'What is your primary role?', answers: [ { text: 'Developer/Team', next: 'q2a' }, { text: 'Non-Coder/Prototyper', next: 'r-lovable' }, { text: 'Tool Builder/Automator', next: 'q2b' } ] },
+                { id: 'q2a', text: 'What is your main environment?', answers: [ { text: 'IDE (VS Code, JetBrains)', next: 'q3a' }, { text: 'Terminal / CLI', next: 'r-gemini' } ] },
+                { id: 'q2b', text: 'What is your priority?', answers: [ { text: 'Flexibility via API', next: 'r-codex' }, { text: 'Open Source & Terminal Native', next: 'r-gemini' } ] },
+                { id: 'q3a', text: 'What is your top priority?', answers: [ { text: 'Productivity & Wide Support', next: 'r-copilot' }, { text: 'Deep Codebase Intelligence', next: 'r-cursor' } ] },
+                { id: 'r-lovable', text: 'Recommendation: Lovable is the perfect choice for building full-stack apps without writing code.', isRecommendation: true },
+                { id: 'r-gemini', text: 'Recommendation: Gemini CLI is ideal for terminal-centric workflows.', isRecommendation: true },
+                { id: 'r-codex', text: 'Recommendation: OpenAI Codex provides the power and flexibility to build custom tools.', isRecommendation: true },
+                { id: 'r-copilot', text: 'Recommendation: GitHub Copilot offers the best all-around productivity boost inside your IDE.', isRecommendation: true },
+                { id: 'r-cursor', text: 'Recommendation: Cursor provides unparalleled codebase understanding for complex refactoring.', isRecommendation: true },
+            ];
+
+            function renderQuestion(questionId) {
+                container.innerHTML = '';
+                const question = questions.find(q => q.id === questionId);
+                if (!question) return;
+
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'text-center';
+                
+                const title = document.createElement('h4');
+                title.className = 'text-xl font-bold mb-6';
+                title.textContent = question.text;
+                questionDiv.appendChild(title);
+                
+                if (question.isRecommendation) {
+                    title.className = 'finder-node recommended p-4 rounded-lg text-lg';
+                } else {
+                    const answersDiv = document.createElement('div');
+                    answersDiv.className = 'flex flex-col md:flex-row justify-center gap-4';
+                    question.answers.forEach(answer => {
+                        const btn = document.createElement('button');
+                        btn.className = 'finder-node border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 text-gray-800 font-semibold py-3 px-6 rounded-lg';
+                        btn.textContent = answer.text;
+                        btn.onclick = () => renderQuestion(answer.next);
+                        answersDiv.appendChild(btn);
+                    });
+                     questionDiv.appendChild(answersDiv);
+                }
+                container.appendChild(questionDiv);
+            }
+            renderQuestion('q1');
+        }
+
+    </script>
+</body>
+</html>
